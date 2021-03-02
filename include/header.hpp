@@ -4,54 +4,30 @@
 #define INCLUDE_HEADER_HPP_
 
 #include <boost/filesystem.hpp>
-#include <ostream>
-#include <iostream>
+#include <vector>
 
-using namespace boost;
-
-class account
+class Filesystem
 {
-
  public:
-
-  friend std::ostream &operator<<(std::ostream &out, const account &ac);
-
-  /* void SetBrokerName(std::string broker_name);
-  void SetFilenames(std::vector<std::string> filenames);
-  void SetAccountNumber(std::string number_account);
-  void SetLastdate(std::string lastdate);
-
-  std::string GetBrokerName();
-  std::vector<std::string> GetFilenames();
-  std::string GetAccountNumber();
-  std::string GetLastdate(); */
-
-  std::string broker_name;
-  std::vector<std::string> filenames;
-  std::string number_account;
-  std::string lastdate;
-
-};
-
-class analyzer
-{
-
- public:
-
-  friend std::ostream &operator<<(std::ostream &out, const analyzer &a);
-  void parse_dir_info(const filesystem::path&path_dir, const std::string &broker);
-  std::string get_number_account(const std::string &filename);
-  bool check_filename(const filesystem::path&path_file);
-  std::string get_date(const std::string& filename) const;
-  void set_lastdates();
-  analyzer(const filesystem::path &path_ftp);
-  ~analyzer();
-
+  Filesystem(const std::string path_to_file);
+  void all_path(boost::filesystem::path p, std::ostream &out);
+  bool handler(boost::filesystem::path p, std::ostream &out);
+  bool check_fiilename(boost::filesystem::path p);
+  std::string what_account(std::string p);
+  std::string what_data(std::string p);
+  std::string what_broker(boost::filesystem::path p);
+  void show_account(std::ostream &out);
+  void insert_element(std::string account, std::string data, std::string broker);
+  friend std::ostream& operator<<(std::ostream &out, Filesystem& file_system);
  private:
+  boost::filesystem::path _path_to_ftp;
+  std::vector<std::string> _broker;
+  std::vector<std::string> _account;
+  std::vector<long int> _files;
+  std::vector<long int> _lastdate;
 
-  filesystem::path path_to_ftp;
-  std::vector<class account*> accounts;
-
+  const size_t len_namefile = 29;
+  const std::string _numbers = "0123456789";
 };
 
 #endif // INCLUDE_HEADER_HPP_

@@ -1,30 +1,21 @@
 #include <header.hpp>
+#include <iostream>
 
-int main(int argc, char* argv[])
+int main(int argc, char** argv)
 {
-
-  filesystem::path path_ftp;
-
+  std::string path = "";
   if (argc == 1)
-    path_ftp = filesystem::current_path();
+    path = ".";
   else if (argc == 2)
-    path_ftp = argv[1];
+  {
+    path = argv[1];
+  }
   else
   {
-    std::cout << "Too many arguments" << std::endl;
-    return -1;
+    std::cout << "ERROR" << std::endl;
+    return 0;
   }
-
-  try
-  {
-     analyzer analyzing(path_ftp);
-     std::cout << analyzing << std::endl;
-  }
-  catch (std::string Error)
-  {
-    std::cout << Error << std::endl;
-    return -1;
-  }
-
+  Filesystem test(path);
+  std::cout<<test;
   return 0;
 }
